@@ -2,7 +2,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) throws FileNotFoundException {
+        System.out.println(read());
 //        boolean[][] schedule = new boolean [8][60];
 //        AppointmentBook a = new AppointmentBook(schedule);
 //        for(int i = 10; i < 15; i++) schedule[1][i] = true;
@@ -37,14 +38,30 @@ public class Main {
     public static int read() throws FileNotFoundException {
         File f = new File ("Schedules.txt");
         Scanner s = new Scanner(f);
-        AppointmentBook a = new AppointmentBook()
-        int fufilledRequests;
+        int fufilledRequests = 0;
+        boolean[][] timeAvailable = new boolean[8][60];
         while(s.hasNextLine()){
-            boolean[] timeAvailable = new boolean[60];
+            while (s.hasNextBoolean()) {
+                for (int a = 0; a < 8; a++) {
+                    for (int i = 0; i < 60; i++) {
+                        timeAvailable[a][i] = s.nextBoolean();
+
+                    }
+                }
+            }
+            AppointmentBook a = new AppointmentBook(timeAvailable);
             /**
              Set the Boolean array to the period and then traverse the period to see if that request(eigth line)
              can be fufilled, if so, fufilledRequest++ **/
-            if ()
+            while (s.hasNextInt()){
+                int startPeriod = s.nextInt();
+                int endPeriod = s.nextInt();
+                int duration = s.nextInt();
+                if (a.makeAppointment(startPeriod, endPeriod, duration)){
+                    fufilledRequests++;
+                }
+            }
         }
+        return fufilledRequests;
     }
 }
